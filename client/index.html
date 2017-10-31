@@ -5,10 +5,11 @@
 	<title>RBS</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="css/bootstrap.css" rel="stylesheet">
-	<link href="css/bootstrap-datepicker.css" rel="stylesheet">
-	<!-- <link href="css/jquery-ui.css" rel="stylesheet"> -->
-	<!-- <link href="css/jquery-ui.theme.css" rel="stylesheet"> -->
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/bootstrap-datepicker.css">
+	<link rel="stylesheet" href="css/fullcalendar.css">
+	<!-- <link rel="stylesheet" href="css/jquery-ui.css"> -->
+	<!-- <link rel="stylesheet" href="css/jquery-ui.theme.css"> -->
 	<link href="css/site.css" rel="stylesheet">
 </head>
 
@@ -47,37 +48,82 @@
 
 	<div class="container-fluid">
 		<div class="row">
+			
+			<!-- 左邊選單 -->
 			<div class="col-sm-3 col-md-2 sidebar">
 				
-				<div class="row"> <!-- 小月曆 -->
-					<div id="dtpMain"></div>
+				<div class="row"> <!-- 顯示小月曆 -->
+					<p>
+						<button class="btn btn-link btn-block" role="button" data-toggle="collapse" href="#dtpMain" aria-expanded="false" aria-controls="dtpMain">
+							<span class="pull-left">小月曆</span>
+							<span class="glyphicon glyphicon-menu-down pull-right"></span>
+						</button>
+					</p>
 				</div>
-
+				<div class="row"> <!-- 小月曆 -->
+					<div id="dtpMain" class="collapse">
+						
+					</div>
+				</div>
 				<hr>
+
+				<!-- <hr> -->
 				
 				<div class="row"> <!-- 加入資源 -->
-					<div class="input-group">
-						<input type="text" class="form-control" placeholder="加入資源" />
-						<span class="input-group-btn">
-							<button class="btn btn-default" type="button">
-								<span class="glyphicon glyphicon-plus"></span>
-							</button>
-						</span>
-					</div>
+					<!-- <p> -->
+<!-- 						<div class="input-group">
+							<input type="text" class="form-control" placeholder="加入資源" />
+							<span class="input-group-btn">
+								<button class="btn btn-default" type="button">
+									<span class="glyphicon glyphicon-plus"></span>
+								</button>
+							</span>
+						</div>
+ -->					<!-- </p> -->
 				</div>
 				
 				<div class="row"> <!-- 資源類型 -->
 					<p>
-						<button class="btn btn-default btn-block" role="button" data-toggle="collapse" href="#resources" aria-expanded="false" aria-controls="resources">
-							資源類型
-							<span class="glyphicon glyphicon-menu-down"></span>
+						<button class="btn btn-link btn-block" role="button" data-toggle="collapse" href="#resources" aria-expanded="false" aria-controls="resources">
+							<span class="pull-left">資源類型</span>
+							<span class="glyphicon glyphicon-menu-down pull-right"></span>
 						</button>
 					</p>
 				</div>
 				
-				<div class="row"> <!-- 資源清單 -->
-					<div id="resources" class="collapse">
+				<div id="resources" class="collapse"><!-- 資源清單 -->
+					<div class="row"> <!-- 資源清單 -->
+						<!-- <p> -->
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="加入資源" />
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button">
+										<span class="glyphicon glyphicon-plus"></span>
+									</button>
+								</span>
+							</div>
+							<br>
+						<!-- </p> -->
+						<div class="row">
+						</div>
 						<table class="table table-hover">
+							<tr>
+								<th>
+									<div class="checkbox-inline">
+										<label>
+											<input type="checkbox">全部
+										</label>
+									</div>
+									<span class="btn-group pull-right" role="group" aria-label="aaaaa">
+										<button type="button" class="btn btn-link btn-xs">
+											<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+										</button>
+										<button type="button" class="btn btn-link btn-xs">
+											<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+										</button>
+									</span>
+								</th>
+							</tr>
 							<tr>
 								<td>
 									<div class="checkbox-inline">
@@ -86,10 +132,10 @@
 										</label>
 									</div>
 									<span class="btn-group pull-right" role="group" aria-label="aaaaa">
-										<button type="button" class="btn btn-link">
+										<button type="button" class="btn btn-link btn-xs">
 											<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 										</button>
-										<button type="button" class="btn btn-link">
+										<button type="button" class="btn btn-link btn-xs">
 											<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
 										</button>
 									</span>
@@ -98,15 +144,15 @@
 							<tr>
 								<td>
 									<div class="checkbox-inline">
-										<button type="button" class="btn btn-default" data-toggle="button" aria-pressed="false" autocomplete="off">
-											會議室2
-										</button>
+										<label>
+											<input type="checkbox">會議室2
+										</label>
 									</div>
 									<span class="btn-group pull-right" role="group" aria-label="aaaaa">
-										<button type="button" class="btn btn-link">
+										<button type="button" class="btn btn-link btn-xs">
 											<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 										</button>
-										<button type="button" class="btn btn-link">
+										<button type="button" class="btn btn-link btn-xs">
 											<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
 										</button>
 									</span>
@@ -120,107 +166,28 @@
 										</label>
 									</div>
 									<span class="btn-group pull-right" role="group" aria-label="aaaaa">
-										<button type="button" class="btn btn-link">
+										<button type="button" class="btn btn-link btn-xs">
 											<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 										</button>
-										<button type="button" class="btn btn-link">
+										<button type="button" class="btn btn-link btn-xs">
 											<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
 										</button>
 									</span>
 								</td>
 							</tr>
-
 						</table>
-
-						<div class="list-group">
-
-							<p>
-								<div class="checkbox-inline">
-									<label>
-										<input type="checkbox">會議室 aa
-									</label>
-								</div>
-								<span class="btn-group pull-right" role="group" aria-label="aaaaa">
-									<button type="button" class="btn btn-link">
-										<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-									</button>
-									<button type="button" class="btn btn-link">
-										<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
-									</button>
-								</span>
-							</p>
-
-							<p>
-								<div class="checkbox-inline">
-									<label>
-										<input type="checkbox">會議室 bb
-									</label>
-								</div>
-								<span class="btn-group pull-right" role="group" aria-label="aaaaa">
-									<button type="button" class="btn btn-link">
-										<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-									</button>
-									<button type="button" class="btn btn-link">
-										<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
-									</button>
-								</span>
-							</p>
-
-							<p>
-								<div class="checkbox-inline">
-									<label>
-										<input type="checkbox">會議室 cc
-									</label>
-								</div>
-								<span class="btn-group pull-right" role="group" aria-label="aaaaa">
-									<button type="button" class="btn btn-link">
-										<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-									</button>
-									<button type="button" class="btn btn-link">
-										<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
-									</button>
-								</span>
-							</p>
-
-							<p>
-								<div class="checkbox-inline">
-									<label>
-										<input type="checkbox">會議室 dd
-									</label>
-								</div>
-								<span class="btn-group pull-right" role="group" aria-label="aaaaa">
-									<button type="button" class="btn btn-link">
-										<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-									</button>
-									<button type="button" class="btn btn-link">
-										<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
-									</button>
-								</span>
-							</p>
-
-							<p>
-								<div class="checkbox-inline">
-									<label>
-										<input type="checkbox">會議室 ee
-									</label>
-								</div>
-								<span class="btn-group pull-right" role="group" aria-label="aaaaa">
-									<button type="button" class="btn btn-link">
-										<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-									</button>
-									<button type="button" class="btn btn-link">
-										<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
-									</button>
-								</span>
-							</p>
-
-						</div>
 					</div>
 				</div>
 			</div>
+
+
+			<!-- 右邊主工作區 -->
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<div class="page-header">
+				<!-- <div class="page-header">
 					<h1>Right</h1>
+				</div> -->
+				<div id="calendar">
+					
 				</div>
 			</div>
 		</div>
@@ -232,17 +199,16 @@
 		</div>
 	</footer>
 
-	<script src="js/jquery.js"></script>
-	<!-- <script src="js/jquery-ui.js"></script> -->
-	<!-- <script src="js/datepicker-zh-TW.js"></script> --><!-- 繁體中文 -->
-	<script src="js/bootstrap.js"></script>
-	<script src="js/bootstrap-datepicker.js"></script>
-	<script src="js/locales/bootstrap-datepicker.zh-TW.js" charset="UTF-8"></script>
+	<script src="js/jquery/jquery.js"></script>
+	<!-- <script src="js/jqueryui/jquery-ui.js"></script> -->
+	<script src="js/bootstrap/bootstrap.js"></script>
+	<script src="js/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+	<script src="js/bootstrap-datepicker/locales/bootstrap-datepicker.zh-TW.js" charset="UTF-8"></script>
+	<script src='js/moment/moment.js'></script>
+	<script src='js/fullcalendar/fullcalendar.js'></script>
+	<script src='js/fullcalendar/locale/zh-tw.js'></script>
 	<script>
 		$(function(){
-			// $("#accordionMenu").accordion({
-			// 	// heightStyle: "fill"
-			// });
 
 			$('#dtpMain').datepicker({
 				format: "yyyy/mm/dd",
@@ -250,6 +216,13 @@
 				orientation: "top auto",
 				todayHighlight: true,
 				toggleActive: true
+			});
+
+			$('#calendar').fullCalendar({
+				locale: "zh-tw",
+				navLinks: true,
+				editable: true,
+				eventLimit: true
 			});
 		});
 	</script>
