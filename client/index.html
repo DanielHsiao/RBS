@@ -5,7 +5,10 @@
 	<title>RBS</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+	<!-- <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" /> -->
 	<link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
+	<!-- <link rel="stylesheet" href="css/bootstrap/css/bootstrap-theme.css"> -->
 	<link rel="stylesheet" href="css/bootstrap-datepicker/bootstrap-datepicker.css">
 	<link rel="stylesheet" href="css/fullcalendar/fullcalendar.css">
 	<!-- <link rel="stylesheet" href="css/jqueryui/jquery-ui.css"> -->
@@ -15,7 +18,7 @@
 
 <body>
 
-	<div class="navbar navbar-inverse navbar-fixed-top">
+	<div id="header" class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -50,123 +53,106 @@
 		<div class="row">
 			
 			<!-- 左邊選單 -->
-			<div class="col-sm-3 col-md-2 sidebar">
+			<div class="col-md-3 col-lg-2 sidebar">
 				
 				<div class="row"> <!-- 顯示小月曆 -->
 					<p>
-						<button class="btn btn-link btn-block" role="button" data-toggle="collapse" href="#dtpMain" aria-expanded="false" aria-controls="dtpMain">
+						<button class="btn btn-link btn-block" id="dtpMainT" role="button" data-toggle="collapse" href="#dtpMain" aria-expanded="true" aria-controls="dtpMain">
 							<span class="pull-left">小月曆</span>
-							<span class="glyphicon glyphicon-menu-down pull-right"></span>
+							<span class="glyphicon glyphicon-menu-up pull-right"></span>
 						</button>
 					</p>
 				</div>
 				<div class="row"> <!-- 小月曆 -->
-					<div id="dtpMain" class="collapse">
+					<div id="dtpMain" class="collapse in" data-parent="#dtpMainT">
 						
 					</div>
 				</div>
-				<hr>
 
-				<!-- <hr> -->
+				<hr>
 				
-				<div class="row"> <!-- 加入資源 -->
-					<!-- <p> -->
-						<!-- <div class="input-group">
-							<input type="text" class="form-control" placeholder="加入資源" />
-							<span class="input-group-btn">
-								<button class="btn btn-default" type="button">
-									<span class="glyphicon glyphicon-plus"></span>
-								</button>
-							</span>
-						</div> -->
-					<!-- </p> -->
-				</div>
-				
-				<div class="row"> <!-- 資源類型 -->
+				<div class="row"> <!-- 顯示資源清單 -->
 					<p>
-						<button class="btn btn-link btn-block" role="button" data-toggle="collapse" href="#resources" aria-expanded="false" aria-controls="resources">
+						<button class="btn btn-link btn-block" id="resourcesT" role="button" data-toggle="collapse" href="#resources" aria-expanded="true" aria-controls="resources">
 							<span class="pull-left">資源類型</span>
-							<span class="glyphicon glyphicon-menu-down pull-right"></span>
+							<span class="glyphicon glyphicon-menu-up pull-right"></span>
 						</button>
 					</p>
 				</div>
-				
-				<div id="resources" class="collapse"><!-- 資源清單 -->
-					<div class="row"> <!-- 資源清單 -->
-						<!-- <p> -->
-							<div class="input-group">
-								<input type="text" class="form-control" placeholder="加入資源" />
-								<span class="input-group-btn">
-									<button class="btn btn-default" type="button">
-										<span class="glyphicon glyphicon-plus"></span>
-									</button>
-								</span>
-							</div>
-							<br>
-						<!-- </p> -->
-						<div class="row">
+				<div class="row"> <!-- 資源清單 -->
+					<div id="resources" class="collapse in" data-parent="#resourcesT"><!-- 資源清單 -->
+						<div class="input-group">
+							<input id="tResourceName" type="text" class="form-control" placeholder="加入資源" />
+							<span class="input-group-btn">
+								<button id="bAddResource" class="btn btn-default" type="button">
+									<span class="glyphicon glyphicon-plus"></span>
+								</button>
+							</span>
 						</div>
-						<table class="table table-hover">
-							<tr>
-								<th>
-									<div class="checkbox-inline">
-										<label>
-											<input type="checkbox">全部
-										</label>
-									</div>
-								</th>
-							</tr>
-							<tr>
-								<td>
-									<div class="checkbox-inline">
-										<label>
-											<input type="checkbox">會議室1
-										</label>
-									</div>
-									<span class="btn-group pull-right" role="group" aria-label="aaaaa">
-										<button type="button" class="btn btn-link btn-xs">
-											<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-										</button>
-										<button type="button" class="btn btn-link btn-xs">
-											<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
-										</button>
-									</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="checkbox-inline">
-										<label>
-											<input type="checkbox">會議室2
-										</label>
-									</div>
-									<span class="btn-group pull-right" role="group" aria-label="aaaaa">
-										<button type="button" class="btn btn-link btn-xs">
-											<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-										</button>
-										<button type="button" class="btn btn-link btn-xs">
-											<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
-										</button>
-									</span>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="checkbox-inline">
-										<label>
-											<input type="checkbox">會議室3
-										</label>
-									</div>
-									<span class="btn-group pull-right" role="group" aria-label="aaaaa">
-										<button type="button" class="btn btn-link btn-xs">
-											<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-										</button>
-										<button type="button" class="btn btn-link btn-xs">
-											<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
-										</button>
-									</span>
-								</td>
-							</tr>
+						<br>
+						<table id="resourceTable" class="table table-hover">
+							<tbody>
+								<tr>
+									<td>
+										<div class="checkbox-inline">
+											<label>
+												<input type="checkbox" id="allResoure">全部
+											</label>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="checkbox-inline">
+											<label>
+												<input type="checkbox" id="res01" name="res01" data-resource="cb">會議室1
+											</label>
+										</div>
+										<span class="btn-group pull-right" role="group" aria-label="會議室1">
+											<button type="button" class="btn btn-link btn-xs">
+												<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+											</button>
+											<button type="button" class="btn btn-link btn-xs">
+												<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+											</button>
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="checkbox-inline">
+											<label>
+												<input type="checkbox" id="res02" name="res02" data-resource="cb">會議室2
+											</label>
+										</div>
+										<span class="btn-group pull-right" role="group" aria-label="會議室2">
+											<button type="button" class="btn btn-link btn-xs">
+												<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+											</button>
+											<button type="button" class="btn btn-link btn-xs">
+												<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+											</button>
+										</span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<div class="checkbox-inline">
+											<label>
+												<input type="checkbox" id="res03" name="res03" data-resource="cb">會議室3
+											</label>
+										</div>
+										<span class="btn-group pull-right" role="group" aria-label="會議室3">
+											<button type="button" class="btn btn-link btn-xs">
+												<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+											</button>
+											<button type="button" class="btn btn-link btn-xs">
+												<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+											</button>
+										</span>
+									</td>
+								</tr>
+							</tbody>
 						</table>
 					</div>
 				</div>
@@ -174,10 +160,7 @@
 
 
 			<!-- 右邊主工作區 -->
-			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<!-- <div class="page-header">
-					<h1>Right</h1>
-				</div> -->
+			<div id="mainSpace" class="col-md-9 col-md-offset-3 col-lg-10 col-lg-offset-2 main">
 				<div id="calendar">
 					
 				</div>
@@ -185,9 +168,20 @@
 		</div>
 	</div>
 
-	<footer class="footer navbar-inverse navbar-fixed-bottom">
+	<footer id="footer" class="footer navbar-inverse navbar-fixed-bottom">
 		<div class="container-fluid">
-			<p class="text-muted">© 2017 Daniel Info. Ltd.</p>
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+					<div class="text-muted">
+						&copy; 2017&nbsp; Daniel Info. Ltd., &nbsp;&nbsp; ver 1.0.0
+					</div>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+					<div class="text-muted pull-right">
+						<a href="https://github.com/DanielHsiao/RBS" target="_blank" class="github">GitHub</a>
+					</div>
+				</div>
+			</div>
 		</div>
 	</footer>
 
@@ -199,39 +193,7 @@
 	<script src='js/moment/moment.js'></script>
 	<script src='js/fullcalendar/fullcalendar.js'></script>
 	<script src='js/fullcalendar/locale/zh-tw.js'></script>
-	<script>
-		$(function(){
-
-			$('#dtpMain').datepicker({
-				format: "yyyy/mm/dd",
-				language: "zh-TW",
-				orientation: "top auto",
-				todayHighlight: true,
-				toggleActive: true
-			});
-
-			$('#calendar').fullCalendar({
-				header: {
-					left: "prev,next today",
-					center: "title",
-					right: "month,agendaWeek,agendaDay"
-				},
-				themeSystem: "bootstrap3",
-				height: 600,
-				view: {
-					month: {
-						title: "",
-						titleFormat: "yyyy/mm",
-					},
-				},
-				// defaultView: "agendaWeek",
-				nowIndicator: true,
-
-				locale: "zh-tw",
-				navLinks: true,
-			});
-		});
-	</script>
+	<script src='js/main.js'></script>
 
 </body>
 </html>

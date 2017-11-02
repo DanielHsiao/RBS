@@ -1,0 +1,17 @@
+{
+  "name": "rbs",
+  "version": "1.0.0",
+  "description": "A simple Application to manage resource booking.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Resource",
+    "Booking",
+    "Calcendar",
+    "RBC"
+  ],
+  "author": "Daniel Hsiao <u8755020@gmail.com>",
+  "license": "ISC"
+}
