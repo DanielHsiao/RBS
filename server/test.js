@@ -1,28 +1,83 @@
-// var ip = process.env.IP;
-// var port = process.env.PORT;
-var ip = "";
-var port = 80; 
 
-// 以 Express 建立 Web伺服器
-var express = require("express");
-var app = express();
+	var dbClass = require("./model/DbConnect.js");
+	var db = new dbClass();
+	console.log("連線成功");
 
-// 以 body-parser 模組協助 Express 解析表單與JSON資料
-var bodyParser = require('body-parser');
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+	var DateStr = "2017-11-02 09:00:00";
+	var DateEnd = "2017-11-02 12:00:00";
+	var b = {
+		Id: 4,
+		Name: "不是小組會議",
+		Cont: "測試資料 04",
+		Resource: "會議室 03",
+		DateStr: "2017-11-03 09:00:00",
+		DateEnd: "2017-11-03 12:00:00",
+		Color: "#42ca8b"	
+	};
+	var b2 = {
+		Id: 10,
+		Name: "絕對是小組會議",
+		DateStr: "2017-11-05 09:00:00",
+		DateEnd: "2017-11-05 12:00:00",
+	};
 
-// Web伺服器的靜態檔案置於 public 資料夾
-app.use(express.static("../client"));
+	var bn = {
+		Name: "不重要會議",
+		Cont: "測試資料 6",
+		Resource: "會議室 02",
+		DateStr: "2017-11-03 09:00:00",
+		DateEnd: "2017-11-03 12:00:00",
+		Color: "#42ca8b"	
+	};
 
-// 以 express-session 管理狀態資訊
-var session = require('express-session');
-app.use(session({
-	secret: 'secretKey',
-	resave: false,
-	saveUninitialized: true
-}));
+	var sql, data;
 
-// 一切就緒，開始接受用戶端連線
-app.listen(port);
-console.log("Server is running... Press 'Stop' button to exit.");
+	// sql = "select * from tblbooking where DateStr >= ? and DateEnd <= ? order by DateStr";
+	// data = [DateStr, DateEnd];
+	// db.query(sql, data, resultHandlerByJson);
+
+	// sql = "select distinct Resource from tblbooking order by Resource";
+	// data = null;
+	// db.query(sql, data, resultHandlerByJson);
+
+	// // sql = "update tblbooking set Name = ?, Cont = ?, Resource = ?, DateStr = ?, DateEnd = ?, Color = ? where Id = ?";
+	// // data = [b.Name, b.Cont, b.Resource, b.DateStr, b.DateEnd, b.Color, b.Id];
+	// // db.query(sql, data);
+	// sql = "update tblbooking set ? where Id = ?";
+	// data = [b2, b2.Id];
+	// db.query(sql, data, function(err, result) {
+	// 	sql = "select * from tblbooking where Id = ?"
+	// 	data = [b2.Id];
+	// 	db.query(sql, data, resultHandlerByJson);
+	// });
+
+	// sql = "insert into tblbooking set ?";
+	// data = [bn];
+	// db.query(sql, data, function(err, result) {
+	// 	if (err)
+	// 		console.log(err);
+	// 	var nid = result.insertId;
+	// 	var sql = "select * from tblbooking where Id = ?";
+	// 	var data = [nid];
+	// 	db.query(sql, data, resultHandlerByJson);
+	// });
+// 	sql = "select * from tblbooking where " + objToSqlWhere(bn);
+// console.log("\r\n");
+// 	console.log(sql);
+// 	data = null;
+// 	db.query(sql, data, resultHandlerByJson);
+	// console.log(bn);
+	// console.log("\r\n");
+	// console.log(objToSqlWhere(bn));
+
+	var sql = "delete from tblbooking where Id = ?";
+	var data = [9];
+	db.query(sql, data, resultHandlerByJson);
+
+
+
+	function resultHandlerByJson(err, rows) {
+		if (rows) {
+			console.log(JSON.stringify(rows));
+		}
+	}
