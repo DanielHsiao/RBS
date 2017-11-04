@@ -87,7 +87,6 @@
 						</div>
 						<br> -->
 						<table id="resourceTable" class="table table-hover">
-							<tbody>
 								<tr>
 									<td>
 										<div class="checkbox-inline">
@@ -97,8 +96,9 @@
 										</div>
 									</td>
 								</tr>
-								<tr>
+								<tr data-resource="tr">
 									<td>
+										<span class="badge " style="background-color:#3fbb54">&nbsp;</span>&nbsp;
 										<div class="checkbox-inline">
 											<label>
 												<input type="checkbox" id="res01" name="res01" data-resource="cb">會議室1
@@ -114,7 +114,7 @@
 										</span>
 									</td>
 								</tr>
-								<tr>
+								<tr data-resource="tr">
 									<td>
 										<div class="checkbox-inline">
 											<label>
@@ -131,7 +131,7 @@
 										</span>
 									</td>
 								</tr>
-								<tr>
+								<tr data-resource="tr">
 									<td>
 										<div class="checkbox-inline">
 											<label>
@@ -148,8 +148,8 @@
 										</span>
 									</td>
 								</tr>
-							</tbody>
 						</table>
+						<button class="btn btn-primary" id="btnTest">測試</button>
 					</div>
 				</div>
 			</div>
@@ -189,6 +189,7 @@
 	<script src='js/fullcalendar/fullcalendar.js'></script>
 	<script src='js/fullcalendar/locale/zh-tw.js'></script>
 	<script src='js/main.js'></script>
+	<script src='js/datas.js'></script>
 
 </body>
 </html>

@@ -23,11 +23,11 @@
 
 	var bn = {
 		Name: "不重要會議",
-		Cont: "測試資料 6",
-		Resource: "會議室 02",
+		Cont: "測試資料 11",
+		Resource: "會議室 08",
 		DateStr: "2017-11-03 09:00:00",
 		DateEnd: "2017-11-03 12:00:00",
-		Color: "#42ca8b"	
+		Color: "#ca428b"	
 	};
 
 	var sql, data;
@@ -51,16 +51,16 @@
 	// 	db.query(sql, data, resultHandlerByJson);
 	// });
 
-	// sql = "insert into tblbooking set ?";
-	// data = [bn];
-	// db.query(sql, data, function(err, result) {
-	// 	if (err)
-	// 		console.log(err);
-	// 	var nid = result.insertId;
-	// 	var sql = "select * from tblbooking where Id = ?";
-	// 	var data = [nid];
-	// 	db.query(sql, data, resultHandlerByJson);
-	// });
+	sql = "insert into tblbooking set ?";
+	data = [bn];
+	db.query(sql, data, function(err, result) {
+		if (err)
+			console.log(err);
+		var nid = result.insertId;
+		var sql = "select * from tblbooking where Id = ?";
+		var data = [nid];
+		db.query(sql, data, resultHandlerByJson);
+	});
 // 	sql = "select * from tblbooking where " + objToSqlWhere(bn);
 // console.log("\r\n");
 // 	console.log(sql);
@@ -70,9 +70,9 @@
 	// console.log("\r\n");
 	// console.log(objToSqlWhere(bn));
 
-	var sql = "delete from tblbooking where Id = ?";
-	var data = [9];
-	db.query(sql, data, resultHandlerByJson);
+	// var sql = "delete from tblbooking where Id = ?";
+	// var data = [9];
+	// db.query(sql, data, resultHandlerByJson);
 
 
 

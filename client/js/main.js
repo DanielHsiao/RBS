@@ -1,13 +1,13 @@
-$(function(){
+$(function() {
 
 	// 控制 collapse 收疊展開時的按鈕圖示
-	$(".collapse").on("hide.bs.collapse", function (e) {
+	$(".collapse").on("hide.bs.collapse", function(e) {
 		var parentElementId = $(e.target).data("parent");
 		var bButton = $(parentElementId + " > span.glyphicon");
 		bButton.removeClass("glyphicon-menu-up");
 		bButton.addClass("glyphicon-menu-down");
 	});
-	$(".collapse").on("show.bs.collapse", function (e) {
+	$(".collapse").on("show.bs.collapse", function(e) {
 		var parentElementId = $(e.target).data("parent");
 		var bButton = $(parentElementId + " > span.glyphicon");
 		bButton.removeClass("glyphicon-menu-down");
@@ -15,25 +15,25 @@ $(function(){
 	});
 
 	// 處理全部資源核取方塊
-	$("#allResoure").click(function(o, e){
+	$("#allResoure").click(function(o, e) {
 		var isCheck = $(this).prop("checked");
-		if(isCheck) {
-			$("input[data-resource='cb']").each(function(){
+		if (isCheck) {
+			$("input[data-resource='cb']").each(function() {
 				$(this).prop("checked", isCheck);
 			});
 		}
 	});
 
-	// 處理個別資源核取方塊
-	$("input[data-resource='cb']").click(function(o, e){
-		var isCheck = $(this).prop("checked");
-		if(!isCheck) {
-			$("#allResoure").prop("checked", isCheck);
-		}
-	});
+	// // 處理個別資源核取方塊
+	// $("input[data-resource='cb']").click(function(o, e){
+	// 	var isCheck = $(this).prop("checked");
+	// 	if(!isCheck) {
+	// 		$("#allResoure").prop("checked", isCheck);
+	// 	}
+	// });
 
 	// 處理新增資源的按鈕
-	$("#bAddResource").click(function(o, e){
+	$("#bAddResource").click(function(o, e) {
 		var resName = $("#tResourceName").val();
 		console.log(resName);
 	});
@@ -45,7 +45,7 @@ $(function(){
 		orientation: "top auto",
 		todayHighlight: true,
 		toggleActive: true
-	}).on("changeDate", function(e){
+	}).on("changeDate", function(e) {
 		// 並取得小月曆選取的日期
 		var aa = $("#dtpMain").datepicker("getFormattedDate");
 		console.log(aa);
@@ -59,16 +59,8 @@ $(function(){
 			right: "month,agendaWeek,agendaDay"
 		},
 		themeSystem: "bootstrap3",
-		// bootstrapGlyphicons: {
-		// 	close: 'glyphicon-remove',
-		// 	prev: 'glyphicon-chevron-left',
-		// 	next: 'glyphicon-chevron-right',
-		// 	prevYear: 'glyphicon-backward',
-		// 	nextYear: 'glyphicon-forward'
-		// },
 		// aspectRatio: 2.2,
 		height: "parent",
-		// contentHeight: "auto",
 
 		eventLimit: true,
 		views: {
@@ -82,7 +74,26 @@ $(function(){
 		nowIndicator: true,
 
 		locale: "zh-tw",
-		// navLinks: true,
+		events: function(start, end, timezone, callback) {
+			console.log(start);
+			// var dataToServer = JSON.stringify(genParams(start, end));
+			dataToServer = genParams(start.unix(), end.unix());
+			$.ajax({
+				url: '/booking',
+				type: 'get',
+				data: dataToServer,
+				success: function(doc) {
+					var events = [];
+					callback(events);
+				}
+			}).then(function (result, status) {
+				var events = [];
+				console.log(result);
+				var ret = JSON.parse(result);
+				console.log(ret);
+				callback(events);
+			});
+		}
 	});
 
 
@@ -91,6 +102,18 @@ $(function(){
 	});
 	$(window).trigger("resize");
 	// resetMainSpaceHeight();
+
+	$('#btnTest').click(function(e) {
+		var data = genParams('2017-11-01', '2017-11-05');
+		$.ajax({
+			type: "get",
+			url: "/booking",
+			data: data,
+		}).then(function (data, status) {
+			var ret = JSON.parse(data);
+			console.log(ret);
+		});
+	});
 
 });
 
@@ -102,3 +125,25 @@ function resetMainSpaceHeight() {
 	var calHeight = heiW - heiH - heiF - heiM;
 	$("#mainSpace").height(calHeight);
 }
+
+function getDisplayResources() {
+	var resources = [];
+	$.each($('input:checked[data-resource="cb"]'), function(ind, cb) {
+		resources.push(cb.id);
+	});
+	return resources;
+}
+
+function genParams(start, end) {
+	var data = {
+		DateStr: start,
+		DateEnd: end,
+	};
+	var resources = getDisplayResources();
+	if (resources.length > 0) {
+		data.Resources = resources;
+	}
+	console.log(data);
+	return data;
+}
+
