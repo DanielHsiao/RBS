@@ -74,26 +74,6 @@ $(function() {
 		nowIndicator: true,
 
 		locale: "zh-tw",
-		events: function(start, end, timezone, callback) {
-			console.log(start);
-			// var dataToServer = JSON.stringify(genParams(start, end));
-			dataToServer = genParams(start.unix(), end.unix());
-			$.ajax({
-				url: '/booking',
-				type: 'get',
-				data: dataToServer,
-				success: function(doc) {
-					var events = [];
-					callback(events);
-				}
-			}).then(function (result, status) {
-				var events = [];
-				console.log(result);
-				var ret = JSON.parse(result);
-				console.log(ret);
-				callback(events);
-			});
-		}
 	});
 
 
@@ -102,18 +82,6 @@ $(function() {
 	});
 	$(window).trigger("resize");
 	// resetMainSpaceHeight();
-
-	$('#btnTest').click(function(e) {
-		var data = genParams('2017-11-01', '2017-11-05');
-		$.ajax({
-			type: "get",
-			url: "/booking",
-			data: data,
-		}).then(function (data, status) {
-			var ret = JSON.parse(data);
-			console.log(ret);
-		});
-	});
 
 });
 
@@ -124,26 +92,5 @@ function resetMainSpaceHeight() {
 	var heiM = 60; // margin & panding
 	var calHeight = heiW - heiH - heiF - heiM;
 	$("#mainSpace").height(calHeight);
-}
-
-function getDisplayResources() {
-	var resources = [];
-	$.each($('input:checked[data-resource="cb"]'), function(ind, cb) {
-		resources.push(cb.id);
-	});
-	return resources;
-}
-
-function genParams(start, end) {
-	var data = {
-		DateStr: start,
-		DateEnd: end,
-	};
-	var resources = getDisplayResources();
-	if (resources.length > 0) {
-		data.Resources = resources;
-	}
-	console.log(data);
-	return data;
 }
 

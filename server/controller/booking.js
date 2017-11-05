@@ -11,9 +11,6 @@ module.exports = function(request, response, controllerName) {
 
 	function resultHandlerByJson(err, result) {
 		var objResponse = response;
-		// if (result) {
-		// 	objResponse.send(JSON.stringify(result));
-		// }
 		if (err) {
 			console.log(JSON.stringify(err));
 			console.log("錯誤");
@@ -31,8 +28,6 @@ module.exports = function(request, response, controllerName) {
 			sql = "select * from tblbooking where DateStr >= ? and DateEnd <= ? and Resource in (?) order by DateStr, Resource";
 			data = [this.request.query.DateStr, this.request.query.DateEnd, this.request.query.Resources.join()];
 		}
-		console.log("sql: " + sql + "  \ndata: " + data);
-		console.log("\nResources: " + this.request.query.Resources);
 		db.query(sql, data, resultHandlerByJson);
 	}
 
