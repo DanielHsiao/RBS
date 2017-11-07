@@ -19,10 +19,18 @@ create table `tblbooking` (
 
 -- 輸入測試資料
 set @dt = date_add(curdate(), interval hour(now()) hour);
-insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("業務會議", "測試資料 01", "會議室 01", @dt, date_add(@dt, interval 2 hour), "#428bca");
-insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("主管會議", "測試資料 02", "會議室 02", @dt, date_add(@dt, interval 3 hour), "#428bca");
-insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("研發會議", "測試資料 03", "會議室 01", @dt, date_add(@dt, interval 1 hour), "#428bca");
-insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("小組會議", "測試資料 04", "會議室 04", @dt, date_add(@dt, interval 2 hour), "#428bca");
+insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("業務會議", "測試資料 01", "會議室 01", '2017-11-07 08:00:00', '2017-11-07 10:00:00', '#428bca');
+insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("主管會議", "測試資料 02", "會議室 02", '2017-11-08 09:00:00', '2017-11-08 12:00:00', '#42ca8b');
+insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("研發會議", "測試資料 03", "會議室 03", '2017-11-09 10:00:00', '2017-11-09 12:00:00', '#8bca42');
+insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("小組會議", "測試資料 04", "會議室 04", '2017-11-08 08:00:00', '2017-11-08 10:00:00', '#ca428b');
+insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("業務會議", "測試資料 05", "會議室 01", '2017-11-17 08:00:00', '2017-11-17 10:00:00', '#428bca');
+insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("主管會議", "測試資料 06", "會議室 02", '2017-11-18 09:00:00', '2017-11-18 12:00:00', '#42ca8b');
+insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("研發會議", "測試資料 07", "會議室 03", '2017-11-19 10:00:00', '2017-11-19 12:00:00', '#8bca42');
+insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("小組會議", "測試資料 08", "會議室 04", '2017-11-18 08:00:00', '2017-11-18 10:00:00', '#ca428b');
+insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("業務會議", "測試資料 09", "會議室 01", '2017-11-27 08:00:00', '2017-11-27 10:00:00', '#428bca');
+insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("主管會議", "測試資料 10", "會議室 02", '2017-11-28 09:00:00', '2017-11-28 12:00:00', '#42ca8b');
+insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("研發會議", "測試資料 11", "會議室 03", '2017-11-29 10:00:00', '2017-11-29 12:00:00', '#8bca42');
+insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("小組會議", "測試資料 12", "會議室 04", '2017-11-28 08:00:00', '2017-11-28 10:00:00', '#ca428b');
 
 
 -- create table `tblresource` (

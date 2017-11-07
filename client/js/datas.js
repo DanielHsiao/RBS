@@ -1,6 +1,7 @@
+var resources = [];
+var bookings = [];
+
 $(function() {
-	var resources = [];
-	var bookings = [];
 
 	$.ajax({
 		type: "get",
@@ -18,7 +19,9 @@ $(function() {
 			if(!isCheck) {
 				$("#allResoure").prop("checked", isCheck);
 			}
+			displayBooking();
 		});
+		$("#allResoure").trigger("click");
 	});
 
 	$('#calendar').fullCalendar('addEventSource', function(start, end, timezone, callback) {
@@ -30,11 +33,8 @@ $(function() {
 			type: 'get',
 			data: dataToServer,
 		}).then(function (result, status) {
-			var events = [];
-			console.log(result);
-			var ret = JSON.parse(result);
-			bookings = ret;
-			console.log(ret);
+			bookings = JSON.parse(result);
+			var events = displayBooking();
 			callback(events);
 		});
 	});
@@ -130,6 +130,29 @@ function foo() {
 	// </tr>
 }
 
+function displayBooking() {
+	var resources = getDisplayResources();
+	var events = [];
+	$.each(bookings, function(ind, booking) {
+		if ($.inArray(booking.Resource, resources) <= -1)
+			return;
+		events.push({
+			id: booking.Id,
+			title: booking.Name,
+			start: booking.DateStr,
+			end: booking.DateEnd,
+			backgroundColor: booking.Color,
+			desc: booking.Cont,
+			editable: true,
+		});
+	});
+	// $.each(events, function(ind, event) {
+		
+	// });
+	//$('#calendar').fullCalendar('updateEvents', events);
+	//$('#calendar').fullCalendar('rerenderEvents');
+	return events;
+}
 
 function getDisplayResources() {
 	var resources = [];

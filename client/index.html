@@ -13,7 +13,6 @@
 </head>
 
 <body>
-
 	<div id="header" class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -37,21 +36,19 @@
 						<span class="input-group-btn">
 							<button class="btn btn-default" type="button">
 								<span class="glyphicon glyphicon-search"></span>
-							</button>
+						</button>
 						</span>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
-
 	<div class="container-fluid">
 		<div class="row">
-			
 			<!-- 左邊選單 -->
 			<div class="col-md-3 col-lg-2 sidebar">
-				
-				<div class="row"> <!-- 顯示小月曆 -->
+				<div class="row">
+					<!-- 顯示小月曆 -->
 					<p>
 						<button class="btn btn-link btn-block" id="dtpMainT" role="button" data-toggle="collapse" href="#dtpMain" aria-expanded="true" aria-controls="dtpMain">
 							<span class="pull-left">小月曆</span>
@@ -59,15 +56,14 @@
 						</button>
 					</p>
 				</div>
-				<div class="row"> <!-- 小月曆 -->
+				<div class="row">
+					<!-- 小月曆 -->
 					<div id="dtpMain" class="collapse in" data-parent="#dtpMainT">
-						
 					</div>
 				</div>
-
 				<hr>
-				
-				<div class="row"> <!-- 顯示資源清單 -->
+				<div class="row">
+					<!-- 顯示資源清單 -->
 					<p>
 						<button class="btn btn-link btn-block" id="resourcesT" role="button" data-toggle="collapse" href="#resources" aria-expanded="true" aria-controls="resources">
 							<span class="pull-left">資源類型</span>
@@ -75,8 +71,10 @@
 						</button>
 					</p>
 				</div>
-				<div class="row"> <!-- 資源清單 -->
-					<div id="resources" class="collapse in" data-parent="#resourcesT"><!-- 資源清單 -->
+				<div class="row">
+					<!-- 資源清單 -->
+					<div id="resources" class="collapse in" data-parent="#resourcesT">
+						<!-- 資源清單 -->
 						<!-- <div class="input-group">
 							<input id="tResourceName" type="text" class="form-control" placeholder="加入資源" />
 							<span class="input-group-btn">
@@ -87,83 +85,27 @@
 						</div>
 						<br> -->
 						<table id="resourceTable" class="table table-hover">
-								<tr>
-									<td>
-										<div class="checkbox-inline">
-											<label>
-												<input type="checkbox" id="allResoure">全部
-											</label>
-										</div>
-									</td>
-								</tr>
-								<tr data-resource="tr">
-									<td>
-										<span class="badge " style="background-color:#3fbb54">&nbsp;</span>&nbsp;
-										<div class="checkbox-inline">
-											<label>
-												<input type="checkbox" id="res01" name="res01" data-resource="cb">會議室1
-											</label>
-										</div>
-										<span class="btn-group pull-right" role="group" aria-label="會議室1">
-											<button type="button" class="btn btn-link btn-xs">
-												<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-											</button>
-											<button type="button" class="btn btn-link btn-xs">
-												<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
-											</button>
-										</span>
-									</td>
-								</tr>
-								<tr data-resource="tr">
-									<td>
-										<div class="checkbox-inline">
-											<label>
-												<input type="checkbox" id="res02" name="res02" data-resource="cb">會議室2
-											</label>
-										</div>
-										<span class="btn-group pull-right" role="group" aria-label="會議室2">
-											<button type="button" class="btn btn-link btn-xs">
-												<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-											</button>
-											<button type="button" class="btn btn-link btn-xs">
-												<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
-											</button>
-										</span>
-									</td>
-								</tr>
-								<tr data-resource="tr">
-									<td>
-										<div class="checkbox-inline">
-											<label>
-												<input type="checkbox" id="res03" name="res03" data-resource="cb">會議室3
-											</label>
-										</div>
-										<span class="btn-group pull-right" role="group" aria-label="會議室3">
-											<button type="button" class="btn btn-link btn-xs">
-												<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-											</button>
-											<button type="button" class="btn btn-link btn-xs">
-												<span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
-											</button>
-										</span>
-									</td>
-								</tr>
+							<tr>
+								<td>
+									<div class="checkbox-inline">
+										<label>
+											<input type="checkbox" id="allResoure">全部
+										</label>
+									</div>
+								</td>
+							</tr>
 						</table>
 						<button class="btn btn-primary" id="btnTest">測試</button>
 					</div>
 				</div>
 			</div>
-
-
 			<!-- 右邊主工作區 -->
 			<div id="mainSpace" class="col-md-9 col-md-offset-3 col-lg-10 col-lg-offset-2 main">
 				<div id="calendar">
-					
 				</div>
 			</div>
 		</div>
 	</div>
-
 	<footer id="footer" class="footer navbar-inverse navbar-fixed-bottom">
 		<div class="container-fluid">
 			<div class="row">
@@ -181,6 +123,35 @@
 		</div>
 	</footer>
 
+
+	<div class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title">Modal title</h4>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<label for="recipient-name" class="control-label">Recipient:</label>
+							<input type="text" class="form-control" id="recipient-name">
+						</div>
+						<div class="form-group">
+							<label for="message-text" class="control-label">Message:</label>
+							<textarea class="form-control" id="message-text"></textarea>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button id="btnSave" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button id="btnCancel" type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+
 	<script src="js/jquery/jquery.js"></script>
 	<script src="js/bootstrap/bootstrap.js"></script>
 	<script src="js/bootstrap-datepicker/bootstrap-datepicker.js"></script>
@@ -190,6 +161,6 @@
 	<script src='js/fullcalendar/locale/zh-tw.js'></script>
 	<script src='js/main.js'></script>
 	<script src='js/datas.js'></script>
-
 </body>
+
 </html>

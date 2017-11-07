@@ -22,21 +22,14 @@ $(function() {
 				$(this).prop("checked", isCheck);
 			});
 		}
+		displayBooking();
 	});
-
-	// // 處理個別資源核取方塊
-	// $("input[data-resource='cb']").click(function(o, e){
-	// 	var isCheck = $(this).prop("checked");
-	// 	if(!isCheck) {
-	// 		$("#allResoure").prop("checked", isCheck);
-	// 	}
-	// });
 
 	// 處理新增資源的按鈕
-	$("#bAddResource").click(function(o, e) {
-		var resName = $("#tResourceName").val();
-		console.log(resName);
-	});
+	// $("#bAddResource").click(function(o, e) {
+	// 	var resName = $("#tResourceName").val();
+	// 	console.log(resName);
+	// });
 
 	// 設定 小月曆 的樣式，並取得選取的日期
 	$("#dtpMain").datepicker({
@@ -47,8 +40,9 @@ $(function() {
 		toggleActive: true
 	}).on("changeDate", function(e) {
 		// 並取得小月曆選取的日期
-		var aa = $("#dtpMain").datepicker("getFormattedDate");
-		console.log(aa);
+		var date = $("#dtpMain").datepicker("getFormattedDate");
+		console.log(date);
+		$('#calendar').fullCalendar('gotoDate', date)
 	});
 
 	// 設定主畫面行事曆
@@ -61,7 +55,7 @@ $(function() {
 		themeSystem: "bootstrap3",
 		// aspectRatio: 2.2,
 		height: "parent",
-
+		selectable: true,
 		eventLimit: true,
 		views: {
 			month: {
@@ -74,6 +68,16 @@ $(function() {
 		nowIndicator: true,
 
 		locale: "zh-tw",
+		eventClick: function(calEvent, jsEvent, view) {
+			alert('Event: ' + calEvent.title);
+			alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+			alert('View: ' + view.name);
+		},
+		dayClick: function(date, jsEvent, view) {
+			alert('Clicked on: ' + date.format());
+			alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+			alert('Current view: ' + view.name);
+		},
 	});
 
 
@@ -81,7 +85,6 @@ $(function() {
 		resetMainSpaceHeight();
 	});
 	$(window).trigger("resize");
-	// resetMainSpaceHeight();
 
 });
 
