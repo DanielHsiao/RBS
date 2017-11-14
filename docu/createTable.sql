@@ -18,7 +18,7 @@ create table `tblbooking` (
 );
 
 -- 輸入測試資料
-set @dt = date_add(curdate(), interval hour(now()) hour);
+set @dt = date_add(curdate(), interval 9 hour);
 insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("業務會議", "測試資料 01", "會議室 01", '2017-11-07 08:00:00', '2017-11-07 10:00:00', '#428bca');
 insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("主管會議", "測試資料 02", "會議室 02", '2017-11-08 09:00:00', '2017-11-08 12:00:00', '#42ca8b');
 insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("研發會議", "測試資料 03", "會議室 03", '2017-11-09 10:00:00', '2017-11-09 12:00:00', '#8bca42');

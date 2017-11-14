@@ -41,7 +41,7 @@ $(function() {
 	}).on("changeDate", function(e) {
 		// 並取得小月曆選取的日期
 		var date = $("#dtpMain").datepicker("getFormattedDate");
-		console.log(date);
+		// console.log(date);
 		$('#calendar').fullCalendar('gotoDate', date)
 	});
 
@@ -52,10 +52,12 @@ $(function() {
 			center: "title",
 			right: "month,agendaWeek,agendaDay"
 		},
+		navLinks: true, 
 		themeSystem: "bootstrap3",
-		// aspectRatio: 2.2,
 		height: "parent",
 		selectable: true,
+		selectHelper: true,
+		editable: true, 
 		eventLimit: true,
 		views: {
 			month: {
@@ -68,16 +70,6 @@ $(function() {
 		nowIndicator: true,
 
 		locale: "zh-tw",
-		eventClick: function(calEvent, jsEvent, view) {
-			alert('Event: ' + calEvent.title);
-			alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-			alert('View: ' + view.name);
-		},
-		dayClick: function(date, jsEvent, view) {
-			alert('Clicked on: ' + date.format());
-			alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
-			alert('Current view: ' + view.name);
-		},
 	});
 
 
@@ -86,14 +78,15 @@ $(function() {
 	});
 	$(window).trigger("resize");
 
-});
+	// 設定 calcendar 所在的 div 高度
+	function resetMainSpaceHeight() {
+		var heiW = $(window).height();
+		var heiH = $("#header").height();
+		var heiF = $("#footer").height();
+		var heiM = 60; // margin & panding
+		var calHeight = heiW - heiH - heiF - heiM;
+		$("#mainSpace").height(calHeight);
+	}
 
-function resetMainSpaceHeight() {
-	var heiW = $(window).height();
-	var heiH = $("#header").height();
-	var heiF = $("#footer").height();
-	var heiM = 60; // margin & panding
-	var calHeight = heiW - heiH - heiF - heiM;
-	$("#mainSpace").height(calHeight);
-}
+});
 

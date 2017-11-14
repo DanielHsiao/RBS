@@ -1,0 +1,208 @@
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+	<link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" href="css/bootstrap-datepicker/bootstrap-datepicker.css">
+	<link rel="stylesheet" href="css/fullcalendar/fullcalendar.css">
+	<style>
+		body, input, button, select, textarea, .fc, .fc-today {
+			font-family: "Helvetica Neue", Helvetica, Arial, "微軟正黑體", "微软雅黑", "メイリオ", "맑은 고딕", sans-serif;
+		}
+		#calendar {
+			margin: 10px auto;
+			padding: 0 0px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-3 col-lg-2 sidebar">
+				<div class="row" style="margin-top: 50px">
+					<div class="col-xs-12">
+						<button id="bAdd" class="btn btn-block btn-primary">增加 event</button>
+						<button id="bDel" class="btn btn-block btn-danger">減少 event</button>
+						<button id="bGet" class="btn btn-block btn-success">取得 event</button>
+						<button id="bMdy" class="btn btn-block btn-warning">修改 event</button>
+						<button id="" class="btn btn-block btn-info">event</button>
+						<button id="" class="btn btn-block btn-default">event</button>
+					</div>
+				</div>
+			</div>
+			<div id="mainSpace" class="col-md-9 col-lg-10 main">
+				<div id="calendar"></div>
+			</div>
+		</div>
+	</div>
+</body>
+
+	<script src="js/jquery/jquery.js"></script>
+	<script src="js/bootstrap/bootstrap.js"></script>
+	<script src='js/moment/moment.js'></script>
+	<script src='js/fullcalendar/fullcalendar.js'></script>
+	<script src='js/fullcalendar/locale/zh-tw.js'></script>
+	<script>
+		$(function() {
+
+			var allBookings = genDefaultBookings();
+
+			// 設定主畫面行事曆
+			$('#calendar').fullCalendar({
+				header: {
+					left: "today prev,next",
+					center: "title",
+					right: "month,agendaWeek,agendaDay"
+				},
+				navLinks: true, 
+				themeSystem: "bootstrap3",
+				height: "parent",
+				selectable: true,
+				selectHelper: true,
+				editable: true, 
+				eventLimit: true,
+				views: {
+					month: {
+						title: "",
+						titleFormat: "YYYY / M",
+						eventLimit: 3,
+					},
+				},
+				// defaultView: "agendaWeek",
+				nowIndicator: true,
+
+				locale: "zh-tw",
+
+				events: genEvents(allBookings),
+				select: function(start, end) {
+
+				},
+				eventClick: function(calEvent, jsEvent, view) {
+					// alert('Event: ' + calEvent.title);
+					// alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+					// alert('View: ' + view.name);
+				},
+				dayClick: function(date, jsEvent, view) {
+					// alert('Clicked on: ' + date.format());
+					// alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+					// alert('Current view: ' + view.name);
+				},
+			});
+
+			$(window).resize(function() {
+				resetMainSpaceHeight();
+			});
+			$(window).trigger("resize");
+
+		});
+
+		function resetMainSpaceHeight() {
+			var heiW = $(window).height();
+			var heiH = 0;
+			var heiF = 0;
+			var heiM = 60; // margin & panding
+			var calHeight = heiW - heiH - heiF - heiM;
+			$("#mainSpace").height(calHeight);
+		}
+
+		function genEvents(bookings) {
+			var events = [];
+			$.each(bookings, function(ind, booking) {
+				var event = {
+					id: booking.Id,
+					title: booking.Name,
+					start: booking.DateStr,
+					end: booking.DateEnd,
+					backgroundColor: booking.Color,
+					desc: booking.Cont,
+					editable: true,
+					useResource: booking.Resource,
+				};
+				events.push(event);
+			});
+			return events;
+		}
+
+		function genDefaultBookings() {
+			var bookings = [
+				{
+					Id: 1,
+					Name: "業務會議",
+					Cont: "測試資料 01",
+					Resource: "會議室 01",
+					DateStr: "2017-11-13 09:30:00",
+					DateEnd: "2017-11-13 11:00:00",
+					Color: "#428bca",
+				}, {
+					Id: 2,
+					Name: "主管會議",
+					Cont: "測試資料 01",
+					Resource: "會議室 02",
+					DateStr: "2017-11-14 09:30:00",
+					DateEnd: "2017-11-14 11:00:00",
+					Color: "#42ca8b",
+				}, {
+					Id: 3,
+					Name: "業務會議",
+					Cont: "測試資料 01",
+					Resource: "會議室 01",
+					DateStr: "2017-11-14 10:00:00",
+					DateEnd: "2017-11-14 12:00:00",
+					Color: "#428bca",
+				}, {
+					Id: 4,
+					Name: "業務會議",
+					Cont: "測試資料 04",
+					Resource: "會議室 03",
+					DateStr: "2017-11-14 09:00:00",
+					DateEnd: "2017-11-14 11:00:00",
+					Color: "#ca428b",
+				}, {
+					Id: 5,
+					Name: "業務會議",
+					Cont: "測試資料 05",
+					Resource: "會議室 04",
+					DateStr: "2017-11-15 09:30:00",
+					DateEnd: "2017-11-15 11:00:00",
+					Color: "#8b42ca",
+				}
+			];
+			return bookings;
+		}
+
+		$(function() {
+			$("#bAdd").click(function(e) {
+				var b = {
+					Id: 101,
+					Name: "業務會議",
+					Cont: "測試資料 04",
+					Resource: "會議室 03",
+					DateStr: "2017-11-15 10:30:00",
+					DateEnd: "2017-11-15 12:00:00",
+					Color: "#ca428b",
+				};
+				var events = genEvents([b]);
+				$('#calendar').fullCalendar('renderEvents', events, true);
+			});
+			$("#bDel").click(function(e) {
+				$('#calendar').fullCalendar('removeEvents', function(event) {
+					return (event.useResource == "會議室 01");
+				});
+			});
+			$("#bGet").click(function(e) {
+				var events = $('#calendar').fullCalendar('clientEvents');
+				$.each(events, function(ind, event) {
+					console.log(event.id + " - " + event.title);
+				});
+			});
+			$("#bMdy").click(function(e) {
+				var event = $('#calendar').fullCalendar('clientEvents',  1)[0];
+				event.title = event.title + " aa"
+				$('#calendar').fullCalendar('updateEvent', event);
+			});
+		});
+	</script>
+</html>
