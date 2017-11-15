@@ -108,23 +108,6 @@
 			$("#mainSpace").height(calHeight);
 		}
 
-		function genEvents(bookings) {
-			var events = [];
-			$.each(bookings, function(ind, booking) {
-				var event = {
-					id: booking.Id,
-					title: booking.Name,
-					start: booking.DateStr,
-					end: booking.DateEnd,
-					backgroundColor: booking.Color,
-					desc: booking.Cont,
-					editable: true,
-					useResource: booking.Resource,
-				};
-				events.push(event);
-			});
-			return events;
-		}
 
 		function genDefaultBookings() {
 			var bookings = [

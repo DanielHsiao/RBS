@@ -38,6 +38,7 @@
 			</div>
 		</div>
 	</div>
+
 	<div class="container-fluid">
 		<div class="row">
 			<!-- 左邊選單 -->
@@ -101,6 +102,7 @@
 			</div>
 		</div>
 	</div>
+
 	<footer id="footer" class="footer navbar-inverse navbar-fixed-bottom">
 		<div class="container-fluid">
 			<div class="row">
@@ -119,7 +121,7 @@
 	</footer>
 
 
-	<div class="modal fade" tabindex="-1" role="dialog">
+	<div id="modalModifyResource" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -145,6 +147,27 @@
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
+
+	<div id="modalDeleteResource" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalDeleteResourceLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 id="modalDeleteResourceLabel" class="modal-title">確認刪除資源</h4>
+				</div>
+
+				<div class="modal-body">
+					<p>是否確認要刪除『』這個資源？</p>
+					<div class="alert alert-warning" role="alert" >若刪除的話，所有該資源的紀錄也將一併刪除。</div>
+				</div>
+
+				<div class="modal-footer">
+					<button id="btnConfim" type="button" class="btn btn-danger" data-dismiss="modal">確認刪除</button>
+					<button id="btnCancel" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 	<script src="js/jquery/jquery.js"></script>

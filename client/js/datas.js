@@ -1,49 +1,18 @@
-var resObj;
-// var bookings = [];
-// var bookingFiltes = [];
-
 $(function() {
 
-	resObj = new Resources($("#resourceTable"));
+	var resObj = new Resources($("#resourceTable"));
 	resObj.refreshResources();
 
-	// 取得所有的 Resource 清單
-	// $.ajax({
-	// 	type: "get",
-	// 	url: "/booking/Resources"
-	// }).then(function (data) {
-	// 	// console.log(data);
-	// 	var resObjs = JSON.parse(data);
-	// 	// console.log(resObjs);
-	// 	resources = resObjs;
-	// 	genResources(resObjs);
-		
-	// 	// 處理個別資源核取方塊
-	// 	$("input[data-resource='cb']").click(function(o, e){
-	// 		var isCheck = $(this).prop("checked");
-	// 		if(!isCheck) {
-	// 			$("#allResoure").prop("checked", isCheck);
-	// 		}
-	// 		displayBooking();
-	// 	});
-	// 	$("#allResoure").trigger("click");
-	// });
+	$('#calendar').fullCalendar('addEventSource', function(start, end, timezone, callback) {
+		var ress = resObj.getDisplayResources();
+		getBookings(start, end, ress, callback);
+	});
 
-	// $('#calendar').fullCalendar('addEventSource', function(start, end, timezone, callback) {
-	// 	var dts = start.format("YYYY-MM-DD HH:mm:ss");
-	// 	var dte = end.format("YYYY-MM-DD HH:mm:ss");
-	// 	var dataToServer = genParams(dts, dte);
-	// 	$.ajax({
-	// 		url: '/booking',
-	// 		type: 'get',
-	// 		data: dataToServer,
-	// 	}).then(function (result, status) {
-	// 		bookings = JSON.parse(result);
-	// 		var events = displayBooking();
-	// 		// displayBooking();
-	// 		callback([]);
-	// 	});
-	// });
+	$('#modalDeleteResource').on('show.bs.modal'), function(event) {
+		console.log('show.bs.modal');
+		var btn = $(event.relatedTarget);
+		console.log(btn);
+	}
 
 	// 測試按鈕
 	// $('#btnTest').click(function(e) {
@@ -65,27 +34,26 @@ class Resources {
 		this.table = table;
 	}
 
-	// 取得所有的 Resource 清單
-	refreshResources() {
-		var th = this;
-		$.ajax({
-			type: "get",
-			url: "/booking/Resources"
-		}).then(function (data) {
-			th.resources = JSON.parse(data);
-			th.genResourcesInTable();
-		});
-	}
-
-	// 產生一批資源按鈕 - 清除，再充新產生
+	// 產生一批資源按鈕，清除，再充新產生
 	genResourcesInTable() {
 		var th = this;
-		$.each($("tr[data-resource='tr']"), function(ind, ele) {
-			ele.remove();
+		$("tr[data-resource='tr']").each(function(ind, item) {
+			item.remove();
 		});
 
-		$.each(this.resources, function(ind, val) {
-			th.genResourceTr(val).appendTo(th.table);
+		$.each(this.resources, function(ind, item) {
+			th.genResourceTr(item).appendTo(th.table);
+		});
+
+		// 處理全部資源核取方塊
+		$("#allResoure").click(function(o, e) {
+			var isCheck = $(this).prop("checked");
+			if (isCheck) {
+				$("input[data-resource='cb']").each(function(ind, item) {
+					$(this).prop("checked", isCheck);
+				});
+			}
+			$('#calendar').fullCalendar('refetchEvents');
 		});
 
 		// 處理個別資源核取方塊
@@ -94,6 +62,7 @@ class Resources {
 			if(!isCheck) {
 				$("#allResoure").prop("checked", isCheck);
 			}
+			$('#calendar').fullCalendar('refetchEvents');
 		});
 
 		$("#allResoure").trigger("click");
@@ -114,35 +83,34 @@ class Resources {
 		$td.append($dvCheck);
 		$td.append($spBtnGp);
 		
-		var $btnDel = $('<button type="button" class="btn btn-link btn-xs" data-resourceDel="' + resource.Resource + '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>');
-		var $btnMdy = $('<button type="button" class="btn btn-link btn-xs" data-resourceMdy="' + resource.Resource + '"><span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span></button>');
+		var $btnDel = $('<button type="button" class="btn btn-link btn-xs" data-resource="' + resource.Resource + '"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>');
+		var $btnMdy = $('<button type="button" class="btn btn-link btn-xs" data-resource="' + resource.Resource + '"><span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span></button>');
 		$spBtnGp.append($btnDel);
 		$spBtnGp.append($btnMdy);
 
-		// 按鈕"刪除"的操作
-		$btnDel.click(function(o, e) {
-			var dataToServer = {Resource: resource.Resource};
-			$.ajax({
-				type: "delete",
-				url: "/booking/Resource",
-				data: JSON.stringify(dataToServer),
-				contentType: "application/json; charset=utf8",
-			}).then(function (data, status) {
-				var ret = JSON.parse(data);
-				if (ret.rbsResult == "success") {
-					$tr.remove();
-				}
-			});
+		// 按鈕"修改"的操作
+		$btnMdy.click(function(e) {
+			// 顯示修改用的表單，確認後修改
+			alert("修改 " + resource.Resource + " - " + resource.Color);
+			// this.modifyResource(resource);
 		});
 
-		// 按鈕"修改"的操作
-		$btnMdy.click(function(o, e) {
-			
+		// 按鈕"刪除"的操作
+		$btnDel.click(function(e) {
+			// 跳出確認對話框，確認後刪除
+			// var btn = e.target;
+			var resId = $(this).data("resource");
+			$("#modalDeleteResource").modal('show');
+			// alert("刪除 " + resource.Resource + " - " + resource.Color);
+			// if(confirm("是否要刪除刪除 " + resource.Resource + " - 『" + resource.Color + "』 ？") != true)
+			// 	return;
+			// this.deleteResource(resource);
 		});
 
 		return $tr;
 	}
 
+	// 取得畫面上要顯示的資源清單
 	getDisplayResources() {
 		var ress = [];
 		$.each($('input:checked[data-resource="cb"]'), function(ind, cb) {
@@ -150,40 +118,102 @@ class Resources {
 		});
 		return ress;
 	}
+
+	// 取得所有的 Resource 清單 - 資料庫
+	refreshResources() {
+		var th = this;
+		$.ajax({
+			type: "get",
+			url: "/booking/Resources"
+		}).then(function (data) {
+			th.resources = JSON.parse(data);
+			th.genResourcesInTable();
+		});
+	}
+
+	// 修改一個 Resource - 資料庫
+	modifyResource(resource) {
+		var dataToServer = {Resource: resource.Resource};
+		$.ajax({
+			type: "put",
+			url: "/booking/Resource",
+			data: JSON.stringify(dataToServer),
+			contentType: "application/json; charset=utf8",
+		}).then(function (data, status) {
+			var ret = JSON.parse(data);
+			if (ret.rbsResult == "success") {
+				// $tr.remove();
+			}
+		});
+	}
+
+	// 刪除一個 Resource - 資料庫
+	deleteResource(resource) {
+		var dataToServer = {Resource: resource.Resource};
+		$.ajax({
+			type: "delete",
+			url: "/booking/Resource",
+			data: JSON.stringify(dataToServer),
+			contentType: "application/json; charset=utf8",
+		}).then(function (data, status) {
+			var ret = JSON.parse(data);
+			if (ret.rbsResult == "success") {
+				// $tr.remove();
+			}
+		});
+	}
 }
 
-function displayBooking() {
-	// $("#calendar").fullCalendar('renderEvents', []);
-	// var ress = resObj.getDisplayResources();
-	// var events = [];
-	// $.each(bookings, function(ind, booking) {
-	// 	if ($.inArray(booking.Resource, ress) <= -1)
-	// 		return;
-	// 	var event = {
-	// 		id: booking.Id,
-	// 		title: booking.Name,
-	// 		start: booking.DateStr,
-	// 		end: booking.DateEnd,
-	// 		backgroundColor: booking.Color,
-	// 		desc: booking.Cont,
-	// 		editable: true,
-	// 	};
-	// 	events.push(event);
-	// 	$("#calendar").fullCalendar('renderEvent', event);
-	// });
-	// bookingFiltes = events;
-	// // $.each(events, function(ind, event) {
-		
-	// // });
-	// //$('#calendar').fullCalendar('updateEvents', events);
-	// //$('#calendar').fullCalendar('rerenderEvents');
-	// return events;
+class Booking {
+
+	// 從一群 booking 物件產生一群 event 物件
+	static genEvents(bookings) {
+		var events = [];
+		$.each(bookings, function(ind, booking) {
+			var event = Booking.genEvent(booking);
+			events.push(event);
+		});
+		return events;
+	}
+	// 從 booking 物件產生 event 物件
+	static genEvent(booking) {
+		var event = {
+			id: booking.Id,
+			title: booking.Name,
+			start: booking.DateStr,
+			end: booking.DateEnd,
+			backgroundColor: booking.Color,
+			desc: booking.Cont,
+			editable: true,
+			useResource: booking.Resource,
+			booking: booking,
+		};
+		return event;
+	}
+
 }
 
-function genParams(start, end) {
+	function getBookings(dStr, dEnd, ress, callback) {
+		var dts = dStr.format("YYYY-MM-DD HH:mm:ss");
+		var dte = dEnd.format("YYYY-MM-DD HH:mm:ss");
+		var dataToServer = genParams(dts, dte, ress);
+		var bookings = [];
+		$.ajax({
+			url: '/booking',
+			type: 'get',
+			data: dataToServer,
+		}).then(function (result, status) {
+			bookings = JSON.parse(result);
+			var events = Booking.genEvents(bookings);
+			callback(events);
+		});
+	}
+
+function genParams(dStr, dEnd, ress) {
 	var data = {
-		DateStr: start,
-		DateEnd: end,
+		DateStr: dStr,
+		DateEnd: dEnd,
+		Resources: ress,
 	};
 	return data;
 }

@@ -14,17 +14,6 @@ $(function() {
 		bButton.addClass("glyphicon-menu-up");
 	});
 
-	// 處理全部資源核取方塊
-	$("#allResoure").click(function(o, e) {
-		var isCheck = $(this).prop("checked");
-		if (isCheck) {
-			$("input[data-resource='cb']").each(function() {
-				$(this).prop("checked", isCheck);
-			});
-		}
-		displayBooking();
-	});
-
 	// 處理新增資源的按鈕
 	// $("#bAddResource").click(function(o, e) {
 	// 	var resName = $("#tResourceName").val();
@@ -70,6 +59,7 @@ $(function() {
 		nowIndicator: true,
 
 		locale: "zh-tw",
+		timezone: 'local',
 	});
 
 

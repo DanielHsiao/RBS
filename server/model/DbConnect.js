@@ -20,7 +20,7 @@ module.exports = function() {
 		});
 
 		// connection.query(sql, param, callback);
-		connection.query(sql, param, function(err, rows) {
+		var qq = connection.query(sql, param, function(err, rows) {
 			if (err) {
 				console.log(JSON.stringify(err));
 				if (callback)
@@ -32,5 +32,7 @@ module.exports = function() {
 		});
 
 		connection.end();
+
+		return qq.sql;
 	}
 }
