@@ -30,14 +30,21 @@ module.exports = function(request, response, controllerName) {
 		db.query(sql, data, resultHandlerByJson);
 	}
 
-	// Param: NewResource, NewColor, OldResource, DateStr, DateEnd
+	// Param: NewResource, NewColor, OldResource[, DateStr, DateEnd]
 	this.putResource = function() {
 		var sql = "update tblbooking set Resource = ? , color = ? where Resource = ?";
 		var data = [this.body.NewResource, this.body.NewColor, this.body.OldResource];
+		var res = this.body.NewResource;
+		var dts = this.body.DateStr;
+		var dte = this.body.DateEnd;
 		db.query(sql, data, function(err, result) {
-			sql = "select * from tblbooking where DateStr >= ? and DateEnd <= ? and Resource = ? order by DateStr";
-			data = [this.body.DateStr, this.body.DateEnd, this.body.NewResource];
-			db.query(sql, data, resultHandlerByJson);
+			if (dts && dte) {
+				sql = "select * from tblbooking where DateStr >= ? and DateEnd <= ? and Resource = ? order by DateStr";
+				data = [dts, dte, res];
+				db.query(sql, data, resultHandlerByJson);
+			} else {
+				resultHandlerByJson(err, {rbsResult: "success"});
+			}
 		});
 	}
 

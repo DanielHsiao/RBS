@@ -108,7 +108,7 @@
 			<div class="row">
 				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
 					<div class="text-muted">
-						&copy; 2017&nbsp; Daniel Info. Ltd., &nbsp;&nbsp; ver 1.0.0
+						&copy; 2017&nbsp; Daniel Info. Ltd., &nbsp;&nbsp; ver 1.1.0
 					</div>
 				</div>
 				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
@@ -121,33 +121,43 @@
 	</footer>
 
 
-	<div id="modalModifyResource" class="modal fade" tabindex="-1" role="dialog">
+	<!-- 修改資源對話框 -->
+	<div id="modalModifyResource" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalModifyResourceLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title">Modal title</h4>
+					<h4 id="modalModifyResourceLabel" class="modal-title">修改資源</h4>
 				</div>
+
 				<div class="modal-body">
-					<form>
+					<form class="form-horizontal">
+						<input type="hidden" id="toMdyResIdHide" value="">
 						<div class="form-group">
-							<label for="recipient-name" class="control-label">Recipient:</label>
-							<input type="text" class="form-control" id="recipient-name">
+							<label for="toMdyResId" class="col-sm-2 control-label">資源名稱:</label>
+							<div class="col-sm-10">
+								<input type="text" class="form-control" id="toMdyResId" value="">
+							</div>
 						</div>
 						<div class="form-group">
-							<label for="message-text" class="control-label">Message:</label>
-							<textarea class="form-control" id="message-text"></textarea>
+							<label for="toMdyResCl" class="col-sm-2 control-label">資源顏色:</label>
+							<div class="col-sm-10">
+								<input type="color" class="form-control" id="toMdyResCl" value="#ffffff">
+							</div>
 						</div>
+						<div class="alert alert-warning" role="alert" >所有該資源的紀錄也將一併變更。</div>
 					</form>
 				</div>
+
 				<div class="modal-footer">
-					<button id="btnSave" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button id="btnCancel" type="button" class="btn btn-primary">Save changes</button>
+					<button id="btnMdyResConfim" type="button" class="btn btn-primary" data-dismiss="modal">儲存</button>
+					<button id="btnMdyResCancel" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
 
+	<!-- 刪除資源對話框 -->
 	<div id="modalDeleteResource" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalDeleteResourceLabel">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -157,13 +167,13 @@
 				</div>
 
 				<div class="modal-body">
-					<p>是否確認要刪除『』這個資源？</p>
+					<p>是否確認要刪除『<span id="toDelRes"></span>』這個資源？</p>
 					<div class="alert alert-warning" role="alert" >若刪除的話，所有該資源的紀錄也將一併刪除。</div>
 				</div>
 
 				<div class="modal-footer">
-					<button id="btnConfim" type="button" class="btn btn-danger" data-dismiss="modal">確認刪除</button>
-					<button id="btnCancel" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button id="btnDelResConfim" type="button" class="btn btn-danger" data-dismiss="modal">確認刪除</button>
+					<button id="btnDelResCancel" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 				</div>
 			</div>
 		</div>

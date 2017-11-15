@@ -32,6 +32,12 @@ insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("
 insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("研發會議", "測試資料 11", "會議室 03", '2017-11-29 10:00:00', '2017-11-29 12:00:00', '#8bca42');
 insert into tblbooking (Name, Cont, Resource, DateStr, DateEnd, Color) values ("小組會議", "測試資料 12", "會議室 04", '2017-11-28 08:00:00', '2017-11-28 10:00:00', '#ca428b');
 
+INSERT INTO `rbs`.`tblbooking` (`Name`, `Cont`, `Resource`, `DateStr`, `DateEnd`, `Color`) VALUES ('TTTMM1', 'TTT2', 'MM', '2017-11-14 10:00:00', '2017-11-14 12:00:00', '#3712ef');
+INSERT INTO `rbs`.`tblbooking` (`Name`, `Cont`, `Resource`, `DateStr`, `DateEnd`, `Color`) VALUES ('TTTMM2', 'TTT3', 'MM', '2017-11-15 10:00:00', '2017-11-15 12:00:00', '#3712ef');
+INSERT INTO `rbs`.`tblbooking` (`Name`, `Cont`, `Resource`, `DateStr`, `DateEnd`, `Color`) VALUES ('TTTMM3', 'TTT4', 'MM', '2017-11-16 10:00:00', '2017-11-16 12:00:00', '#3712ef');
+INSERT INTO `rbs`.`tblbooking` (`Name`, `Cont`, `Resource`, `DateStr`, `DateEnd`, `Color`) VALUES ('TTTDD1', 'TTT1', 'DD', '2017-11-15 10:00:00', '2017-11-15 12:00:00', '#12ef45');
+INSERT INTO `rbs`.`tblbooking` (`Name`, `Cont`, `Resource`, `DateStr`, `DateEnd`, `Color`) VALUES ('TTTDD2', 'TTT5', 'DD', '2017-11-16 10:00:00', '2017-11-16 12:00:00', '#12ef45');
+
 
 -- create table `tblresource` (
 --   `Id` int(11) not null auto_increment comment 'ID',
