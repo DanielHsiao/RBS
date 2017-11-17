@@ -1,15 +1,102 @@
 $(function() {
 
+	// 控制 collapse 收疊展開時的按鈕圖示
+	$(".collapse").on("hide.bs.collapse", function(e) {
+		var parentElementId = $(e.target).data("parent");
+		var bButton = $(parentElementId + " > span.glyphicon");
+		bButton.removeClass("glyphicon-menu-up");
+		bButton.addClass("glyphicon-menu-down");
+	});
+	$(".collapse").on("show.bs.collapse", function(e) {
+		var parentElementId = $(e.target).data("parent");
+		var bButton = $(parentElementId + " > span.glyphicon");
+		bButton.removeClass("glyphicon-menu-down");
+		bButton.addClass("glyphicon-menu-up");
+	});
+
+	// 處理新增資源的按鈕
+	// $("#bAddResource").click(function(o, e) {
+	// 	var resName = $("#tResourceName").val();
+	// 	console.log(resName);
+	// });
+
+	// 設定 小月曆 的樣式，並取得選取的日期
+	$("#dtpMain").datepicker({
+		format: "yyyy/mm/dd",
+		language: "zh-TW",
+		orientation: "top auto",
+		todayHighlight: true,
+		toggleActive: true
+	}).on("changeDate", function(e) {
+		// 並取得小月曆選取的日期
+		var date = $("#dtpMain").datepicker("getFormattedDate");
+		// console.log(date);
+		$('#calendar').fullCalendar('gotoDate', date)
+	});
+
 	var resObj = new Resources($("#resourceTable"));
 	resObj.refreshResources();
+
+	// 設定主畫面行事曆
+	$('#calendar').fullCalendar({
+		header: {
+			left: "today prev,next",
+			center: "title",
+			right: "month,agendaWeek,agendaDay"
+		},
+		views: {
+			month: {
+				title: "",
+				titleFormat: "YYYY / M",
+				eventLimit: 3,
+			},
+		},
+		// defaultView: "agendaWeek",
+		navLinks: true, 
+		themeSystem: "bootstrap3",
+		selectable: true,
+		selectHelper: true,
+		editable: true, 
+		eventLimit: true,
+		height: "parent",
+		nowIndicator: true,
+		locale: "zh-tw",
+		timezone: 'local',
+
+		eventResize: function(event) {
+			Calendar.eventResize(event);
+		},
+		eventDrop: function(event) {
+			console.log('eventDrop');
+		},
+	});
 
 	$('#calendar').fullCalendar('addEventSource', function(start, end, timezone, callback) {
 		var ress = resObj.getDisplayResources();
 		Booking.getBookings(start, end, ress, callback);
 	});
 
-	// $('#modalDeleteResource').on('show.bs.modal', function(event) {
-	// 	var btn = event.relatedTarget;
+	// $('#calendar').fullCalendar('eventResize', function(event, delta, revertFunc) {
+	// 	console.log('eventResize - dy');
+	// 	// Booking.updateBooking(event, function(events) {
+	// 	// 	if (events.lenght <= 0) {
+	// 	// 		revertFunc();
+	// 	// 		return;
+	// 	// 	}
+	// 	// 	$('#calendar').fullCalendar('updateEvents', events);
+	// 	// });
+	// });
+
+	// $('#calendar').fullCalendar('eventDrop', function(event, delta, revertFunc) {
+	// 	console.log('eventDrop - dy');
+	// });
+
+	// $('#calendar').fullCalendar('select', function(start, end) {
+		
+	// });
+
+	// $('#calendar').fullCalendar('eventClick', function(event) {
+		
 	// });
 
 	// 確認修改資源按鈕
@@ -22,8 +109,6 @@ $(function() {
 				return (event.useResource == resOld);
 			});
 			$.each(events, function(ind, item) {
-				// item.useResource = resNew;
-				// item.backgroundColor = colNew;
 				Booking.changeResAndColor(item, resNew, colNew);
 			});
 			$('#calendar').fullCalendar('updateEvents', events);
@@ -57,6 +142,21 @@ $(function() {
 	// 		console.log(ret);
 	// 	});
 	// });
+
+	$(window).resize(function() {
+		resetMainSpaceHeight();
+	});
+	$(window).trigger("resize");
+
+	// 設定 calcendar 所在的 div 高度
+	function resetMainSpaceHeight() {
+		var heiW = $(window).height();
+		var heiH = $("#header").height();
+		var heiF = $("#footer").height();
+		var heiM = 60; // margin & panding
+		var calHeight = heiW - heiH - heiF - heiM;
+		$("#mainSpace").height(calHeight);
+	}
 });
 
 class Resources {
@@ -72,7 +172,7 @@ class Resources {
 			item.remove();
 		});
 
-		$.each(this.resources, function(ind, item) {
+		$.each(th.resources, function(ind, item) {
 			th.genResourceTr(item).appendTo(th.table);
 		});
 
@@ -205,6 +305,18 @@ class Resources {
 	}
 }
 
+class Calendar {
+	static eventResize(event) {
+		Booking.updateBooking(event, function(events) {
+			if (events.lenght <= 0) {
+				revertFunc();
+				return;
+			}
+			$('#calendar').fullCalendar('updateEvents', events);
+		});
+	}
+}
+
 class Booking {
 
 	// 從一群 booking 物件產生一群 event 物件
@@ -231,7 +343,24 @@ class Booking {
 		};
 		return event;
 	}
+	// 從 event 物件產生 booking 物件
+	static genBooking(event) {
+		if (event.booking) {
+			return event.booking;
+		}
+		var booking = {
+			Id: event.id,
+			Name: event.title,
+			Cont: event.desc,
+			Resource: useResource,
+			DateStr: start,
+			DateEnd: end,
+			Color: backgroundColor,
+		};
+		return booking;
+	}
 
+	// 變更 event 資源以及顏色
 	static changeResAndColor(event, res, color) {
 		event.useResource = res;
 		event.backgroundColor = color;
@@ -253,6 +382,30 @@ class Booking {
 			if(callback) {
 				callback(events);
 			}
+		});
+	}
+
+	static updateBooking(event, callback) {
+		var event = genBooking(event);
+		var dataToServer = JSON.stringify(event);
+		$.ajax({
+			url: '/booking',
+			type: 'put',
+			data: dataToServer,
+			contentType: "application/json; charset=utf8",
+		}).then(function(data, status) {
+			var bookings = JSON.parse(data);
+			var ret = [];
+			
+			if (bookings.rbsResult && bookings.rbsResult == "success") {
+				ret = [event];	
+			} else if (bookings.lenght) {
+				ret = Booking.genEvents(bookings);		
+			}
+
+			if(callback) {
+				callback(ret);
+			}		
 		});
 	}
 

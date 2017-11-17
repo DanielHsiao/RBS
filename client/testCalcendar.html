@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" href="img/favicon.ico" type="image/x-icon" />
 	<link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" href="css/bootstrap-datepicker/bootstrap-datepicker.css">
+	<link rel="stylesheet" href="css/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css">
 	<link rel="stylesheet" href="css/fullcalendar/fullcalendar.css">
 	<style>
 		body, input, button, select, textarea, .fc, .fc-today {
@@ -13,7 +13,7 @@
 		}
 		#calendar {
 			margin: 10px auto;
-			padding: 0 0px;
+			padding: 0px;
 		}
 	</style>
 </head>
@@ -28,13 +28,38 @@
 						<button id="bDel" class="btn btn-block btn-danger">減少 event</button>
 						<button id="bGet" class="btn btn-block btn-success">取得 event</button>
 						<button id="bMdy" class="btn btn-block btn-warning">修改 event</button>
-						<button id="" class="btn btn-block btn-info">event</button>
-						<button id="" class="btn btn-block btn-default">event</button>
+						<button id="bStr" class="btn btn-block btn-info">設定開始</button>
+						<button id="bEnd" class="btn btn-block btn-default">設定結束</button>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12" style="margin-top: 20px">
+							<div class="form-group">
+								<label for="bookingDateStr" class="control-label">開始時間:</label>
+								<div class='input-group date' id='bookingDateStr'>
+									<input type='text' class="form-control" />
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
+							</div>
+					</div>
+					<div class="col-xs-12">
+							<div class="form-group">
+								<label for="bookingDateEnd" class="control-label">結束時間:</label>
+								<div class='input-group date' id='bookingDateEnd'>
+									<input type='text' class="form-control" />
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
+							</div>
 					</div>
 				</div>
 			</div>
 			<div id="mainSpace" class="col-md-9 col-lg-10 main">
-				<div id="calendar"></div>
+				<div id="calendar">
+				</div>
 			</div>
 		</div>
 	</div>
@@ -45,6 +70,7 @@
 	<script src='js/moment/moment.js'></script>
 	<script src='js/fullcalendar/fullcalendar.js'></script>
 	<script src='js/fullcalendar/locale/zh-tw.js'></script>
+	<script src="js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
 	<script>
 		$(function() {
 
@@ -92,11 +118,31 @@
 				},
 			});
 
+			$('#bookingDateStr').datetimepicker({
+				dayViewHeaderFormat: "YYYY / M",
+				format: "YYYY-M-D HH:mm",
+				stepping: 15,
+				sideBySide: true,
+				allowInputToggle: true,
+			});
+			$('#bookingDateEnd').datetimepicker({
+				// dayViewHeaderFormat: "YYYY / M",
+				// format: "YYYY-M-D HH:mm",
+				// sideBySide: true,
+				format: "LT",
+				useCurrent: false, //Important! See issue #1075
+			});
+			$("#bookingDateStr").on("dp.change", function (e) {
+				$('#bookingDateEnd').data("DateTimePicker").minDate(e.date);
+			});
+			$("#bookingDateEnd").on("dp.change", function (e) {
+				$('#bookingDateStr').data("DateTimePicker").maxDate(e.date);
+			});
+
 			$(window).resize(function() {
 				resetMainSpaceHeight();
 			});
 			$(window).trigger("resize");
-
 		});
 
 		function resetMainSpaceHeight() {
@@ -108,6 +154,30 @@
 			$("#mainSpace").height(calHeight);
 		}
 
+		// 從一群 booking 物件產生一群 event 物件
+		function genEvents(bookings) {
+			var events = [];
+			$.each(bookings, function(ind, booking) {
+				var event = genEvent(booking);
+				events.push(event);
+			});
+			return events;
+		}
+		// 從 booking 物件產生 event 物件
+		function genEvent(booking) {
+			var event = {
+				id: booking.Id,
+				title: booking.Name,
+				start: booking.DateStr,
+				end: booking.DateEnd,
+				backgroundColor: booking.Color,
+				desc: booking.Cont,
+				editable: true,
+				useResource: booking.Resource,
+				booking: booking,
+			};
+			return event;
+		}
 
 		function genDefaultBookings() {
 			var bookings = [
@@ -183,8 +253,14 @@
 			});
 			$("#bMdy").click(function(e) {
 				var event = $('#calendar').fullCalendar('clientEvents',  1)[0];
-				event.title = event.title + " aa"
+				event.title = event.title + " aa";
 				$('#calendar').fullCalendar('updateEvent', event);
+			});
+			$("#bStr").click(function(e) {
+				$('#bookingDateStr').data("DateTimePicker").date(moment('2017-11-17 10:08'));
+			});
+			$("#bEnd").click(function(e) {
+				$('#bookingDateEnd').data("DateTimePicker").date(moment('2017-11-17 12:00'));
 			});
 		});
 	</script>

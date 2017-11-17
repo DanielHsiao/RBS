@@ -6,9 +6,9 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" href="img/favicon.ico" type="image/x-icon" />
-	<link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
-	<link rel="stylesheet" href="css/bootstrap-datepicker/bootstrap-datepicker.css">
-	<link rel="stylesheet" href="css/fullcalendar/fullcalendar.css">
+	<link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css">
+	<link rel="stylesheet" href="css/fullcalendar/fullcalendar.min.css">
 	<link rel="stylesheet" href="css/site.css">
 </head>
 
@@ -27,9 +27,9 @@
 			<div id="navbar" class="navbar-collaspe collaspe">
 				<form class="navbar-form navbar-right">
 					<div class="input-group">
-						<input type="text" class="form-control" placeholder="尋找..." />
+						<input type="text" class="form-control" id="txtSearch" placeholder="尋找..." />
 						<span class="input-group-btn">
-							<button class="btn btn-default" type="button">
+							<button type="button" class="btn btn-default" id="btnSearch">
 								<span class="glyphicon glyphicon-search"></span>
 						</button>
 						</span>
@@ -41,6 +41,7 @@
 
 	<div class="container-fluid">
 		<div class="row">
+			
 			<!-- 左邊選單 -->
 			<div class="col-md-3 col-lg-2 sidebar">
 				<div class="row">
@@ -70,16 +71,6 @@
 				<div class="row">
 					<!-- 資源清單 -->
 					<div id="resources" class="collapse in" data-parent="#resourcesT">
-						<!-- 資源清單 -->
-						<!-- <div class="input-group">
-							<input id="tResourceName" type="text" class="form-control" placeholder="加入資源" />
-							<span class="input-group-btn">
-								<button id="bAddResource" class="btn btn-default" type="button">
-									<span class="glyphicon glyphicon-plus"></span>
-								</button>
-							</span>
-						</div>
-						<br> -->
 						<table id="resourceTable" class="table table-hover">
 							<tr>
 								<td>
@@ -91,10 +82,10 @@
 								</td>
 							</tr>
 						</table>
-						<button class="btn btn-primary" id="btnTest">測試</button>
 					</div>
 				</div>
 			</div>
+			
 			<!-- 右邊主工作區 -->
 			<div id="mainSpace" class="col-md-9 col-md-offset-3 col-lg-10 col-lg-offset-2 main">
 				<div id="calendar">
@@ -145,7 +136,12 @@
 								<input type="color" class="form-control" id="toMdyResCl" value="#ffffff">
 							</div>
 						</div>
-						<div class="alert alert-warning" role="alert" >所有該資源的紀錄也將一併變更。</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">&nbsp;</label>
+							<div class="col-sm-10">
+								<p class="text-danger">所有該資源的紀錄也將一併變更。</p>
+							</div>
+						</div>
 					</form>
 				</div>
 
@@ -168,7 +164,7 @@
 
 				<div class="modal-body">
 					<p>是否確認要刪除『<span id="toDelRes"></span>』這個資源？</p>
-					<div class="alert alert-warning" role="alert" >若刪除的話，所有該資源的紀錄也將一併刪除。</div>
+					<p class="text-danger">若刪除的話，所有該資源的紀錄也將一併刪除。</p>
 				</div>
 
 				<div class="modal-footer">
@@ -180,15 +176,109 @@
 	</div>
 
 
-	<script src="js/jquery/jquery.js"></script>
-	<script src="js/bootstrap/bootstrap.js"></script>
-	<script src="js/bootstrap-datepicker/bootstrap-datepicker.js"></script>
-	<script src="js/bootstrap-datepicker/locales/bootstrap-datepicker.zh-TW.js" charset="UTF-8"></script>
+	<!-- 註冊紀錄對話框 -->
+	<div id="modalBooking" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalBookingLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 id="modalBookingLabel" class="modal-title">紀錄</h4>
+				</div>
+
+				<div class="modal-body">
+					<form>
+
+						<input type="hidden" id="bookingId" value="">
+
+						<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="bookingName" class="control-label">紀錄名稱:</label>
+								<input type="text" class="form-control" id="bookingName" value="">
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="bookingDateStr" class="control-label">起訖時間:</label>
+								<div class='input-group date' id='bookingDateStr'>
+									<input type='text' class="form-control" />
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="bookingDateEnd" class="control-label">&nbsp;</label>
+								<div class='input-group date' id='bookingDateEnd'>
+									<input type='text' class="form-control" />
+									<span class="input-group-addon">
+										<span class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="bookingResource" class="control-label">使用資源:</label>
+								<div class="input-group">
+									<div class="input-group-btn">
+										<button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<span class="caret"></span>
+										</button>
+										<ul class="dropdown-menu" id="bookingResourceDropdown">
+											<li><a href="#">Choice 1</a></li>
+											<li><a href="#">Choice 2</a></li>
+											<li><a href="#">Choice 3</a></li>
+										</ul>
+									</div><!-- /btn-group -->
+									<input type="text" class="form-control" id="bookingResource" value="">
+	 							</div>
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="bookingCont" class="control-label">紀錄內容:</label>
+								<textarea class="form-control" id="bookingCont"></textarea>
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="bookingColor" class="control-label">背景顏色:</label>
+								<input type="color" class="form-control" id="bookingColor" value="#ffffff">
+							</div>
+						</div>
+
+						</div>
+
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button id="btnDelBok" type="button" class="btn btn-danger pull-left" data-dismiss="modal">刪除</button>
+					<button id="btnInsBok" type="button" class="btn btn-primary" data-dismiss="modal">新增新增</button>
+					<button id="btnMdyBok" type="button" class="btn btn-primary" data-dismiss="modal">儲存變更</button>
+					<button id="btnCnlBok" type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+
+
+	<script src="js/jquery/jquery.min.js"></script>
+	<script src="js/bootstrap/bootstrap.min.js"></script>
 	<script src='js/moment/moment.js'></script>
-	<script src='js/fullcalendar/fullcalendar.js'></script>
+	<!-- <script src='js/moment/locale/zh-tw.js'></script> -->
+	<script src='js/fullcalendar/fullcalendar.min.js'></script>
 	<script src='js/fullcalendar/locale/zh-tw.js'></script>
+	<script src="js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
 	<script src='js/main.js'></script>
-	<script src='js/datas.js'></script>
 </body>
 
 </html>
